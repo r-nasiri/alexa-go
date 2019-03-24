@@ -14,5 +14,5 @@ go get github.com/r-nasiri/alexa-go
 
 ## Samples
 
-### [Hello World](https://github.com/r-nasiri/alexa-go/examples/hello-world)
+### [Hello World](https://github.com/r-nasiri/alexa-go/tree/master/examples/hello-world)
 Sample that implements some request handlers and is deployed as Lambda function.
