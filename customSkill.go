@@ -35,11 +35,15 @@ func (cs CustomSkill) Lambda() lambdaFunctionType {
 			Version: "1.0",
 		}
 		for _, handler := range cs.handlers {
-			handlerInput := HandlerInput{RequestEnvelope: re}
+			handlerInput := HandlerInput{
+				RequestEnvelope:   re,
+				AttributesManager: BasicAttributeManger{Attributes: re.Session.Attributes},
+			}
 			if handler.CanHandle(handlerInput) {
 				fmt.Println("handeling request", re.Session.SessionID)
 				response, err := handler.Handle(handlerInput)
 				responseEnvelope.Response = &response
+				responseEnvelope.SessionAttributes = handlerInput.AttributesManager.GetSessionAttributes()
 				return responseEnvelope, err
 			}
 		}
@@ -50,8 +54,14 @@ func (cs CustomSkill) Lambda() lambdaFunctionType {
 
 }
 
+type AttributesManager interface {
+	GetSessionAttributes() map[string]interface{}
+	SetSessionAttributes(map[string]interface{})
+}
+
 // HandlerInput represents the struct that is passed to each request handler
 type HandlerInput struct {
-	ResponseBuilder response.ResponseBuilder
-	RequestEnvelope model.RequestEnvelope
+	ResponseBuilder   response.ResponseBuilder
+	RequestEnvelope   model.RequestEnvelope
+	AttributesManager AttributesManager
 }

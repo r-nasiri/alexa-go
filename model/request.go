@@ -11,12 +11,10 @@ type RequestEnvelope struct {
 // Session represents the session data from the request.
 // It provides additional context associated with the request.
 type Session struct {
-	New        bool   `json:"new"`
-	SessionID  string `json:"sessionId"`
-	Attributes struct {
-		String map[string]interface{} `json:"string,omitempty"`
-	} `json:"attributes,omitempty"`
-	User struct {
+	New        bool                   `json:"new"`
+	SessionID  string                 `json:"sessionId"`
+	Attributes map[string]interface{} `json:"attributes"`
+	User       struct {
 		UserID      string `json:"userId"`
 		AccessToken string `json:"accessToken,omitempty"`
 	} `json:"user"`
