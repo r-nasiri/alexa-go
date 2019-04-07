@@ -48,7 +48,7 @@ func (cs CustomSkill) Lambda() lambdaFunctionType {
 			}
 		}
 
-		return responseEnvelope, fmt.Errorf("Cannot find any handlers")
+		return responseEnvelope, fmt.Errorf("Cannot find any handlers for request %v", re.Request)
 
 	}
 

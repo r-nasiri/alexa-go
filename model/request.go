@@ -74,7 +74,8 @@ type LaunchRequest struct {
 
 // IntentRequest represents a request made to a skill based on what the user wants to do.
 type IntentRequest struct {
-	Intent *Intent `json:"intent,omitempty"`
+	Intent      *Intent `json:"intent,omitempty"`
+	DialogState string  `json:"dialogState,omitempty"`
 }
 
 // SkillDisabledRequest
@@ -94,13 +95,17 @@ const (
 	ConfirmationStatusNone      string = "NONE"
 	ConfirmationStatusDenied    string = "DENIED"
 	ConfirmationStatusConfirmed string = "CONFIRMED"
+	DialogStateStarted          string = "STARTED"
+	DialogStateInProgress       string = "IN_PROGRESS"
+	DialogStateCompleted        string = "COMPLETED"
 )
 
 // IntentSlot contains the data for one Slot
 type IntentSlot struct {
 	Name               string       `json:"name"`
 	ConfirmationStatus string       `json:"confirmationStatus,omitempty"`
-	Value              string       `json:"value"`
+	Value              string       `json:"value,omitempty"`
+	Source             string       `json:"source,omitempty"`
 	Resolutions        *Resolutions `json:"resolutions,omitempty"`
 }
 

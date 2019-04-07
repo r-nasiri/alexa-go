@@ -44,6 +44,7 @@ func TestIntentEventMarshaling(t *testing.T) {
 	if err := json.Unmarshal(inputJSON, &inputEvent); err != nil {
 		t.Errorf("could not unmarshal event. details: %v", err)
 	}
+	assert.Equal(t, inputEvent.Request.Intent.Slots["Color"].Value, "blue")
 
 	// serialize to json
 	outputJSON, err := json.Marshal(inputEvent)
