@@ -1,10 +1,25 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/r-nasiri/alexa-go"
 	"github.com/r-nasiri/alexa-go/model"
 )
+
+type sessionEndedHandler struct{}
+
+func (sh sessionEndedHandler) CanHandle(handlerInput alexa.HandlerInput) bool {
+	return handlerInput.RequestEnvelope.Request.Type == "SessionEndedRequest"
+
+}
+
+func (sh sessionEndedHandler) Handle(handlerInput alexa.HandlerInput) (model.Response, error) {
+	responseBuilder := handlerInput.ResponseBuilder
+	fmt.Println("Session ended")
+	return responseBuilder.GetResponse(), nil
+}
 
 type startHandler struct{}
 
@@ -42,7 +57,7 @@ func main() {
 
 	var alexaSkill alexa.CustomSkill
 
-	alexaSkill.AddRequestHandlers(helloHandler{}, startHandler{})
+	alexaSkill.AddRequestHandlers(helloHandler{}, startHandler{}, sessionEndedHandler{})
 
 	lambda.Start(alexaSkill.Lambda())
 }

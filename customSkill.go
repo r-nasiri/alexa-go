@@ -31,6 +31,8 @@ func (cs *CustomSkill) AddRequestHandlers(handlers ...RequestHandler) *CustomSki
 // Lambda returns a function that implements lambda function
 func (cs CustomSkill) Lambda() lambdaFunctionType {
 	return func(ctx context.Context, re model.RequestEnvelope) (model.ResponseEnvelope, error) {
+		fmt.Println("handeling request", re.Session.SessionID, " type: ", re.Request.Type)
+
 		responseEnvelope := model.ResponseEnvelope{
 			Version: "1.0",
 		}
@@ -40,7 +42,6 @@ func (cs CustomSkill) Lambda() lambdaFunctionType {
 				AttributesManager: BasicAttributeManger{Attributes: re.Session.Attributes},
 			}
 			if handler.CanHandle(handlerInput) {
-				fmt.Println("handeling request", re.Session.SessionID)
 				response, err := handler.Handle(handlerInput)
 				responseEnvelope.Response = &response
 				responseEnvelope.SessionAttributes = handlerInput.AttributesManager.GetSessionAttributes()
